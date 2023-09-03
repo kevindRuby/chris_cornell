@@ -124,11 +124,11 @@ Best known as the lead vocalist and rhythm guitarist for Soundgarden and as the 
       </div>
 
       <!--Youtube -->     
-        <div class="row">
+      
           <div class="col-4">
             <!-- Playlist with a vertical scrollbar -->
             <div id="playlistTB" style="overflow-y: scroll; max-height: 400px;"></div>
-          </div>        </div>
+          </div>       
     
   
       <!-- Bootstrap Modal -->
@@ -493,42 +493,53 @@ Best known as the lead vocalist and rhythm guitarist for Soundgarden and as the 
 
 
 
-  <script>
-    // Your YouTube Data API key
-    var apiKey = 'AIzaSyCw6Vw1YSO7qKHSnZQwdMtGAODTPV5UGxs';
 
-    // Playlist ID (replace with your playlist ID)
-    var playlistId = 'PLtGVK_304DadCVPphr7nfufNYT2RrOEvG';
+    <script>
+        // Your YouTube Data API key
+        var apiKey = 'AIzaSyCw6Vw1YSO7qKHSnZQwdMtGAODTPV5UGxs';
 
-    // Create a function to fetch playlist data
-    function fetchPlaylistData() {
-      // Construct the API request URL with the key
-      var apiUrl = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=' + playlistId + '&key=' + apiKey;
+        // Playlist ID (replace with your playlist ID)
+        var playlistId = 'PLtGVK_304DadCVPphr7nfufNYT2RrOEvG';
 
-      // Send a GET request to the API
-      fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-          var playlistContainer = document.getElementById('playlistTB');
-          data.items.forEach(item => {
-            // Extract video information
-            var videoTitle = item.snippet.title;
-            var videoId = item.snippet.resourceId.videoId;
+        // Create a function to fetch playlist data
+        function fetchPlaylistData() {
+            // Construct the API request URL with the key
+            var apiUrl = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=' + playlistId + '&key=' + apiKey;
 
-            // Create HTML elements for each video in the playlist
-            var videoElement = document.createElement('div');
-            videoElement.innerHTML = '<a href="https://www.youtube.com/watch?v=' + videoId + '">' + videoTitle + '</a>';
-            playlistContainer.appendChild(videoElement);
-          });
-        })
-        .catch(error => {
-          console.error('Error fetching playlist data:', error);
-        });
-    }
+            // Send a GET request to the API
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    var playlistContainer = document.getElementById('playlistTB');
+                    data.items.forEach(item => {
+                        // Extract video information
+                        var videoTitle = item.snippet.title;
+                        var videoId = item.snippet.resourceId.videoId;
 
-    // Call the function to fetch and display the playlist
-    fetchPlaylistData();
-  </script>
+                        // Create a link for each video in the playlist
+                        var videoLink = document.createElement('a');
+                        videoLink.href = '#';
+                        videoLink.className = 'list-group-item list-group-item-action';
+                        videoLink.textContent = videoTitle;
+
+                        // Add a click event listener to open the video in the modal
+                        videoLink.addEventListener('click', function () {
+                            var videoFrame = document.getElementById('videoFrame');
+                            videoFrame.src = 'https://www.youtube.com/embed/' + videoId;
+                            $('#videoModal').modal('show');
+                        });
+
+                        playlistContainer.appendChild(videoLink);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching playlist data:', error);
+                });
+        }
+
+        // Call the function to fetch and display the playlist
+        fetchPlaylistData();
+    </script>
 
 
 </body>
