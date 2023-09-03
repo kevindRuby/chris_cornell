@@ -476,7 +476,7 @@ Best known as the lead vocalist and rhythm guitarist for Soundgarden and as the 
   <script src="js/agency.min.js"></script>
 
 
-  
+
   <script>
     // Your YouTube Data API key
     var apiKey = 'AIzaSyCw6Vw1YSO7qKHSnZQwdMtGAODTPV5UGxs';
@@ -486,7 +486,11 @@ Best known as the lead vocalist and rhythm guitarist for Soundgarden and as the 
 
     // Create a function to fetch playlist data
     function fetchPlaylistData() {
-      fetch('https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=' + playlistId + '&key=' + apiKey)
+      // Construct the API request URL with the key
+      var apiUrl = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=' + playlistId + '&key=' + apiKey;
+
+      // Send a GET request to the API
+      fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
           var playlistContainer = document.getElementById('playlist-container');
@@ -509,6 +513,7 @@ Best known as the lead vocalist and rhythm guitarist for Soundgarden and as the 
     // Call the function to fetch and display the playlist
     fetchPlaylistData();
   </script>
+
 
 </body>
 
